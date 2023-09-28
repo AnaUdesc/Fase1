@@ -16,3 +16,5 @@ Para executar a aplicação:
 4) Dentro do fonte, alterar o usuário e senha de conexão do banco
 5) Dentro da classe GerarRelatorios, alterar os diretórios onde os arquivos serão gerados, caso desejar (está padronizado para C:\temp)
 6) Executar a aplicação e selecionar a opção que desejar, conforme menu.
+
+Se precisar de alguma coisa, pode nos contatar por email ou no Moodle.
