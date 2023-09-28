@@ -1,0 +1,6 @@
++---------------------------------------------+
+|  Relatório Reservas por Animal Selecionado  |
++---------------------------------------------+
+ID Reserva		Nome do Animal		Nome do Cliente		Matricula
+9                        Felpudo                  Francisco                6                        
+10                       Felpudo                  Francisco                6                        
