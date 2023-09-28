@@ -1,0 +1,406 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.4
+-- Dumped by pg_dump version 15.3
+
+-- Started on 2023-09-28 02:17:00
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 217 (class 1259 OID 16492)
+-- Name: animais_id_animal_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.animais_id_animal_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.animais_id_animal_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 215 (class 1259 OID 16405)
+-- Name: animais; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.animais (
+    id_animal integer DEFAULT nextval('public.animais_id_animal_seq'::regclass) NOT NULL,
+    nome_animal text,
+    especie_animal text,
+    raca text,
+    idade integer,
+    sexo_animal text,
+    observacao text,
+    cpf_cliente integer
+);
+
+
+ALTER TABLE public.animais OWNER TO postgres;
+
+--
+-- TOC entry 214 (class 1259 OID 16398)
+-- Name: clientes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.clientes (
+    cpf_cliente integer NOT NULL,
+    nome_cliente text,
+    sobrenome_cliente text,
+    email text,
+    rua text,
+    cidade text,
+    estado text,
+    pais text,
+    telefone text
+);
+
+
+ALTER TABLE public.clientes OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 16534)
+-- Name: funcionarios; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.funcionarios (
+    matricula integer NOT NULL,
+    nome_funcionario character varying(255) NOT NULL,
+    sobrenome_funcionario character varying(255) NOT NULL,
+    data_nascimento date,
+    cpf_funcionario character varying(14),
+    telefone character varying(20),
+    email character varying(100),
+    data_contratacao date,
+    status character varying(20),
+    observacoes text
+);
+
+
+ALTER TABLE public.funcionarios OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16533)
+-- Name: funcionarios_matricula_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.funcionarios_matricula_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.funcionarios_matricula_seq OWNER TO postgres;
+
+--
+-- TOC entry 3367 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: funcionarios_matricula_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.funcionarios_matricula_seq OWNED BY public.funcionarios.matricula;
+
+
+--
+-- TOC entry 221 (class 1259 OID 16544)
+-- Name: matricula_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.matricula_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.matricula_seq OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16500)
+-- Name: planos_id_plano_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.planos_id_plano_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.planos_id_plano_seq OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 16417)
+-- Name: planos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.planos (
+    id_plano integer DEFAULT nextval('public.planos_id_plano_seq'::regclass) NOT NULL,
+    nome_plano text,
+    descricao_plano text,
+    duracao_plano integer,
+    preco_plano numeric,
+    restricao_especie text,
+    disponibilidade text,
+    tipo_acomodacao character varying(255)
+);
+
+
+ALTER TABLE public.planos OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 16547)
+-- Name: reservas; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.reservas (
+    id_reserva integer NOT NULL,
+    id_animal integer,
+    id_plano integer,
+    matricula integer,
+    data date,
+    hora_entrada time without time zone,
+    hora_saida time without time zone,
+    observacoes_reserva text,
+    status_reserva text
+);
+
+
+ALTER TABLE public.reservas OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 16546)
+-- Name: reservas_id_reserva_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.reservas_id_reserva_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.reservas_id_reserva_seq OWNER TO postgres;
+
+--
+-- TOC entry 3368 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: reservas_id_reserva_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.reservas_id_reserva_seq OWNED BY public.reservas.id_reserva;
+
+
+--
+-- TOC entry 3195 (class 2604 OID 16537)
+-- Name: funcionarios matricula; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios ALTER COLUMN matricula SET DEFAULT nextval('public.funcionarios_matricula_seq'::regclass);
+
+
+--
+-- TOC entry 3196 (class 2604 OID 16550)
+-- Name: reservas id_reserva; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservas ALTER COLUMN id_reserva SET DEFAULT nextval('public.reservas_id_reserva_seq'::regclass);
+
+
+--
+-- TOC entry 3353 (class 0 OID 16405)
+-- Dependencies: 215
+-- Data for Name: animais; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.animais (id_animal, nome_animal, especie_animal, raca, idade, sexo_animal, observacao, cpf_cliente) FROM stdin;
+9	Felpudo	cachorro	Shih-tzu	2	feminino	nenhuma	588432
+\.
+
+
+--
+-- TOC entry 3352 (class 0 OID 16398)
+-- Dependencies: 214
+-- Data for Name: clientes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.clientes (cpf_cliente, nome_cliente, sobrenome_cliente, email, rua, cidade, estado, pais, telefone) FROM stdin;
+15923457	Joaquim	Barbosa	jocabarbosa@gmail.com	Rua das Margaridas	Oliveira	SC	Brasil	12340-3456
+588432	Francisco	Amaro	francisco.amaro@yahoo.com	das Bromelias	Joinville	SC	Brasil	2376-7654
+\.
+
+
+--
+-- TOC entry 3358 (class 0 OID 16534)
+-- Dependencies: 220
+-- Data for Name: funcionarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.funcionarios (matricula, nome_funcionario, sobrenome_funcionario, data_nascimento, cpf_funcionario, telefone, email, data_contratacao, status, observacoes) FROM stdin;
+6	Ana 	Clara	2002-12-28	12345	1234-6543	anaclara@email.com	2023-09-28	ativa	nenhuma
+\.
+
+
+--
+-- TOC entry 3354 (class 0 OID 16417)
+-- Dependencies: 216
+-- Data for Name: planos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.planos (id_plano, nome_plano, descricao_plano, duracao_plano, preco_plano, restricao_especie, disponibilidade, tipo_acomodacao) FROM stdin;
+5	Gold	Gold	3	1000	nao	possui	plus
+6	Alegria	alegria	3	2000	nenhuma	nao	sozinha
+\.
+
+
+--
+-- TOC entry 3361 (class 0 OID 16547)
+-- Dependencies: 223
+-- Data for Name: reservas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.reservas (id_reserva, id_animal, id_plano, matricula, data, hora_entrada, hora_saida, observacoes_reserva, status_reserva) FROM stdin;
+9	9	6	6	2023-09-27	14:00:00	18:00:00	nenhuma	concluid
+10	9	5	6	2023-09-22	12:00:00	19:00:00	nenhuma	sim
+\.
+
+
+--
+-- TOC entry 3369 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: animais_id_animal_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.animais_id_animal_seq', 9, true);
+
+
+--
+-- TOC entry 3370 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: funcionarios_matricula_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.funcionarios_matricula_seq', 6, true);
+
+
+--
+-- TOC entry 3371 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: matricula_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.matricula_seq', 1, false);
+
+
+--
+-- TOC entry 3372 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: planos_id_plano_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.planos_id_plano_seq', 6, true);
+
+
+--
+-- TOC entry 3373 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: reservas_id_reserva_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.reservas_id_reserva_seq', 10, true);
+
+
+--
+-- TOC entry 3200 (class 2606 OID 16411)
+-- Name: animais animais_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.animais
+    ADD CONSTRAINT animais_pkey PRIMARY KEY (id_animal);
+
+
+--
+-- TOC entry 3198 (class 2606 OID 16404)
+-- Name: clientes clientes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT clientes_pkey PRIMARY KEY (cpf_cliente);
+
+
+--
+-- TOC entry 3204 (class 2606 OID 16543)
+-- Name: funcionarios funcionarios_cpf_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios
+    ADD CONSTRAINT funcionarios_cpf_key UNIQUE (cpf_funcionario);
+
+
+--
+-- TOC entry 3206 (class 2606 OID 16541)
+-- Name: funcionarios funcionarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.funcionarios
+    ADD CONSTRAINT funcionarios_pkey PRIMARY KEY (matricula);
+
+
+--
+-- TOC entry 3202 (class 2606 OID 16423)
+-- Name: planos planos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.planos
+    ADD CONSTRAINT planos_pkey PRIMARY KEY (id_plano);
+
+
+--
+-- TOC entry 3208 (class 2606 OID 16554)
+-- Name: reservas reservas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.reservas
+    ADD CONSTRAINT reservas_pkey PRIMARY KEY (id_reserva);
+
+
+--
+-- TOC entry 3209 (class 2606 OID 16412)
+-- Name: animais animais_cpf_cliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.animais
+    ADD CONSTRAINT animais_cpf_cliente_fkey FOREIGN KEY (cpf_cliente) REFERENCES public.clientes(cpf_cliente);
+
+
+-- Completed on 2023-09-28 02:17:09
+
+--
+-- PostgreSQL database dump complete
+--
+
